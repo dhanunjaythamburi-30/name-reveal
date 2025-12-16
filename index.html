@@ -26,6 +26,8 @@
         .slide:nth-child(1) { background-image: url('1.jpg'); animation: kenBurns 18s infinite; }
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 18s infinite 6s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 18s infinite 12s; }
+        
+        /* Dark Gradient at bottom to make text readable */
         .overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 80%; background: linear-gradient(to top, #000 20%, rgba(0,0,0,0.6) 60%, transparent 100%); z-index: 1; }
 
         /* --- INTRO SCREEN --- */
@@ -54,29 +56,33 @@
         }
         
         .pre-title { font-family: 'Pinyon Script', cursive; font-size: 1.8rem; color: #ffdae0; }
-        .name-hero { font-family: 'Cinzel', serif; font-size: clamp(3.5rem, 15vw, 6rem); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: white; background: linear-gradient(45deg, #fff, var(--primary-gold), #fff); background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: goldShine 4s linear infinite; filter: drop-shadow(0 5px 15px rgba(0,0,0,1)); margin: -5px 0 10px 0; }
+        
+        /* THE NAME NYRA */
+        .name-hero { 
+            font-family: 'Cinzel', serif; 
+            font-size: clamp(3.5rem, 15vw, 6rem); 
+            font-weight: 800; text-transform: uppercase; letter-spacing: 3px; 
+            color: white; 
+            background: linear-gradient(45deg, #fff, var(--primary-gold), #fff); 
+            background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+            animation: goldShine 4s linear infinite; 
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,1)); 
+            margin: -5px 0 10px 0; 
+        }
+        
         .meaning { font-size: 0.75rem; letter-spacing: 5px; color: rgba(255,255,255,0.7); margin-bottom: 25px; text-transform: uppercase; }
         
-        /* Stats Container (Fixed for TV) */
+        /* Stats Container (Born, Day, Time) */
         .stats-container { 
             display: flex; justify-content: center; gap: 20px; 
             border-top: 1px solid rgba(238, 187, 85, 0.4); 
             padding-top: 20px; margin-bottom: 25px;
-            /* TV FIX: Limit width so the line isn't too long */
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
+            /* TV FIX: Limit width */
+            max-width: 500px; margin-left: auto; margin-right: auto;
         }
         
         .stat-box { display: flex; flex-direction: column; color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 400; }
         .stat-label { font-size: 0.65rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;}
-
-        /* Equalizer Animation */
-        .equalizer { height: 20px; display: flex; justify-content: center; align-items: flex-end; gap: 3px; margin-top: 10px; opacity: 0; transition: opacity 1s; }
-        .bar { width: 3px; background: var(--primary-gold); animation: eq 1s infinite ease-in-out; }
-        .bar:nth-child(2) { animation-delay: 0.2s; }
-        .bar:nth-child(3) { animation-delay: 0.4s; }
-        .bar:nth-child(4) { animation-delay: 0.1s; }
 
         .share-btn { 
             background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); 
@@ -85,25 +91,23 @@
             backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 8px; 
         }
 
-        /* --- MEDIA QUERIES (INTELLIGENT SCREEN SIZING) --- */
+        /* MEDIA QUERIES */
         @media (min-width: 768px) {
-            /* If screen is Laptop/Tablet/TV size */
-            .share-btn { display: none !important; } /* Hide share button */
-            .tap-msg { font-size: 1.5rem; margin-top: 40px; } /* Bigger text */
-            .heart-btn { width: 150px; height: 150px; font-size: 4rem; } /* Bigger heart */
+            .share-btn { display: none !important; } /* Hide share on Laptop */
+            .tap-msg { font-size: 1.5rem; margin-top: 40px; }
+            .heart-btn { width: 150px; height: 150px; font-size: 4rem; }
             #content { padding-bottom: 60px; }
-            .name-hero { font-size: 6rem; } /* Fixed max size for name */
+            .name-hero { font-size: 6rem; }
         }
 
         @keyframes kenBurns { 0% { opacity: 0; transform: scale(1.15); z-index: 1; } 10% { opacity: 1; } 33% { opacity: 1; transform: scale(1.0); z-index: 1; } 45% { opacity: 0; z-index: 0; } 100% { opacity: 0; } }
         @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
         @keyframes goldShine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
-        @keyframes eq { 0% { height: 3px; } 50% { height: 15px; } 100% { height: 3px; } }
     </style>
 </head>
 <body>
 
-    <!-- AUDIO -->
+    <!-- AUDIO (If music.mp3 is missing, it will just fail silently which is fine) -->
     <audio id="bgMusic">
         <source src="music.mp3" type="audio/mp3">
     </audio>
@@ -133,29 +137,15 @@
             <div class="stat-box"><span class="stat-label">Time</span>8:03 AM</div>
         </div>
         
+        <!-- Only shows on mobile -->
         <div onclick="shareLink()" class="share-btn">Share Link ➦</div>
-        
-        <div class="equalizer" id="eq">
-            <div class="bar" style="height: 5px;"></div>
-            <div class="bar" style="height: 10px;"></div>
-            <div class="bar" style="height: 15px;"></div>
-            <div class="bar" style="height: 8px;"></div>
-            <div class="bar" style="height: 12px;"></div>
-        </div>
     </div>
 
     <script>
         function startShow() {
-            // Audio Play
             const music = document.getElementById('bgMusic');
             music.volume = 0.8; 
-            music.play()
-                .then(() => {
-                    document.getElementById('eq').style.opacity = '1';
-                })
-                .catch(e => {
-                    console.log("Audio requires tap");
-                });
+            music.play().catch(e => { /* Ignore audio errors */ });
 
             if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
             
