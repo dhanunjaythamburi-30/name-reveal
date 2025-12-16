@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Name Reveal: Pavani</title>
+    <!-- Importing Luxury Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* LUXURY COLOR PALETTE FOR PAVANI */
+            --bg-deep: #1a0b1f; /* Deep Velvet Purple/Black */
+            --bg-accent: #3d102e;
+            --rose-gold: #e0bfb8;
+            --bright-gold: #ffdfba;
+            --neon-pink: #ff9de9;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: radial-gradient(circle at center, var(--bg-accent) 0%, var(--bg-deep) 100%);
+            font-family: 'Playfair Display', serif;
+            color: white;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Full Screen Canvas for Fairy Dust */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        /* Content Container */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        /* --- STAGE 1: THE LOCKET --- */
+        #intro-layer {
+            transition: transform 0.8s ease, opacity 0.8s ease;
+        }
+
+        .teaser-text {
+            font-family: 'Italianno', cursive;
+            font-size: 2.5rem;
+            color: var(--rose-gold);
+            text-shadow: 0 0 10px rgba(224, 191, 184, 0.3);
+            margin-bottom: 2rem;
+            letter-spacing: 2px;
+        }
+
+        .locket-btn {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 0 auto;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2d0f26, #591942);
+            box-shadow: 0 0 0 8px rgba(255, 223, 186, 0.1), 0 0 50px rgba(255, 157, 233, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .heart-icon {
+            font-size: 3rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            animation: beat 1.5s infinite;
+        }
+
+        .tap-instruction {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.5);
+            animation: fadeBlink 2s infinite;
+        }
+
+        /* --- STAGE 2: THE REVEAL --- */
+        #reveal-layer {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .welcoming-text {
+            font-family: 'Italianno', cursive;
+            font-size: 2.2rem;
+            color: var(--rose-gold);
+            margin-bottom: 0px;
+        }
+
+        /* The MAIN EVENT: THE NAME */
+        .name-container {
+            position: relative;
+            margin: 10px 0;
+        }
+
+        .glowing-name {
+            font-size: 4rem; /* HUGE font for impact */
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(to bottom, #fff 0%, #ffdfba 40%, #e0bfb8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+            animation: textShine 3s ease-in-out infinite alternate;
+        }
+
+        .meaning {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            max-width: 80%;
+        }
+
+        /* Decorative Crown/Line */
+        .decor-line {
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--bright-gold), transparent);
+            margin: 20px 0;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes beat { 0%, 100% { transform: scale(1); } 20% { transform: scale(1.2); } }
+        @keyframes fadeBlink { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.8; } }
+        @keyframes textShine { 
+            0% { text-shadow: 0 0 10px rgba(255,223,186,0.2); } 
+            100% { text-shadow: 0 0 30px rgba(255,223,186,0.6), 0 0 60px rgba(255,157,233,0.3); } 
+        }
+
+        /* Media Queries for Phones */
+        @media (max-width: 480px) {
+            .glowing-name { font-size: 13vw; line-height: 1.2; }
+            .teaser-text { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="magicCanvas"></canvas>
+
+    <div class="container">
+        
+        <!-- Screen 1: The Magic Locket -->
+        <div id="intro-layer">
+            <div class="teaser-text">A little princess has arrived...</div>
+            <div class="locket-btn" onclick="startReveal()">
+                <div class="heart-icon">👑</div>
+            </div>
+            <div class="tap-instruction">Touch to Reveal</div>
+        </div>
+
+        <!-- Screen 2: The Grand Name -->
+        <div id="reveal-layer">
+            <div class="welcoming-text">Our world, she is named</div>
+            <div class="decor-line"></div>
+            
+            <div class="name-container">
+                <h1 class="glowing-name">PAVANI</h1>
+            </div>
+
+            <div class="decor-line"></div>
+            <div class="meaning">
+                "Purity • Goddess Ganga • Sacred"<br>
+                The one who purifies the world.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- LUXURY ANIMATION SCRIPT ---
+
+        const canvas = document.getElementById('magicCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        // Colors for particles: Rose Gold, White, Soft Pink
+        const colors = ['#e0bfb8', '#ffffff', '#ffdfba', '#591942'];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, type) {
+                this.x = x || Math.random() * width;
+                this.y = y || Math.random() * height;
+                this.size = Math.random() * 3;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * 2 - 1;
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.life = 1; // 1 = 100% opacity
+                this.decay = Math.random() * 0.01 + 0.005;
+                this.type = type; // 'ambient' or 'explosion'
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // Slow drift
+                if(this.type === 'ambient') {
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                    if (this.y < 0) this.y = height;
+                    if (this.y > height) this.y = 0;
+                } else {
+                    this.life -= this.decay;
+                    this.size *= 0.96; // Shrink
+                }
+            }
+
+            draw() {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Initialize Ambient Dust
+        function initAmbient() {
+            for (let i = 0; i < 80; i++) {
+                particles.push(new Particle(null, null, 'ambient'));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                    i--;
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        initAmbient();
+        animate();
+
+        // --- INTERACTION ---
+        function startReveal() {
+            // 1. Zoom out the button
+            const intro = document.getElementById('intro-layer');
+            intro.style.transform = "scale(2)";
+            intro.style.opacity = "0";
+            
+            setTimeout(() => {
+                intro.style.display = 'none';
+                
+                // 2. Explosion of stars
+                for(let i=0; i<300; i++) {
+                    const x = width / 2;
+                    const y = height / 2;
+                    const p = new Particle(x, y, 'explosion');
+                    p.speedX = (Math.random() - 0.5) * 15;
+                    p.speedY = (Math.random() - 0.5) * 15;
+                    p.size = Math.random() * 6 + 2;
+                    particles.push(p);
+                }
+
+                // 3. Show Name
+                const reveal = document.getElementById('reveal-layer');
+                reveal.style.display = 'flex';
+                setTimeout(() => { reveal.style.opacity = '1'; }, 100);
+
+            }, 600);
+        }
+    </script>
+</body>
+</html>
