@@ -43,9 +43,11 @@
 </head>
 <body>
     
-    <!-- AUDIO PLAYER -->
-    <audio id="bgMusic">
-        <source src="music.mp3" type="audio/mp3">
+    <!-- 1. AUDIO ELEMENT (Preload enabled) -->
+    <!-- ensure file is named exactly: music.mp3 -->
+    <audio id="bgMusic" preload="auto">
+        <source src="./music.mp3" type="audio/mp3">
+        <source src="./music.mp3" type="audio/mpeg">
     </audio>
 
     <div class="slideshow">
@@ -56,14 +58,12 @@
     
     <div class="overlay"></div>
 
-    <!-- INTRO WITH HEART BUTTON -->
     <div id="intro" onclick="startShow()">
         <div class="heart-icon">🩷</div>
         <div class="tap-msg">Tap to Reveal</div>
-        <div class="sound-hint">🔊 Turn on Sound</div>
+        <div class="sound-hint">🔊 Tap & Check Volume</div>
     </div>
 
-    <!-- CONTENT -->
     <div id="content">
         <div class="pre-title">Goddess of Saraswathi</div>
         <h1 class="name-hero">NYRA</h1>
@@ -88,16 +88,27 @@
 
     <script>
         function startShow() {
-            // PLAY MUSIC ON CLICK
+            // FORCE AUDIO PLAY
             const music = document.getElementById('bgMusic');
-            music.volume = 0.5; 
-            music.play().then(() => {
-                console.log("Audio playing...");
-            }).catch(error => {
-                console.log("Audio play failed:", error);
-                alert("Please tap the screen again to start audio!"); 
-            });
+            
+            // This is the debug logic
+            var playPromise = music.play();
 
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    // Audio is playing!
+                    console.log("Audio playing");
+                })
+                .catch(error => {
+                    console.log("Audio Error:", error);
+                    // If error, try one more hack
+                    music.muted = false;
+                    music.volume = 0.5;
+                    music.play();
+                });
+            }
+
+            // Haptic Feedback
             if (navigator.vibrate) navigator.vibrate([50, 50]);
             
             const intro = document.getElementById('intro');
@@ -119,6 +130,11 @@
             } else {
                 window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
             }
+        }
+        
+        // Try to load audio immediately when page loads
+        window.onload = function() {
+            document.getElementById('bgMusic').load();
         }
     </script>
 </body>
