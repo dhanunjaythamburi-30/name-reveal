@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Baby Nyra</title>
     
-    <!-- Premium Fonts: Cinzel (Royal) + Pinyon (Script) + Lato (Details) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;800&family=Pinyon+Script&family=Lato:wght@300;700&display=swap" rel="stylesheet">
     
@@ -13,194 +12,144 @@
         :root {
             --primary-gold: #eebb55;
             --soft-white: #fafafa;
-            --glass-bg: rgba(0, 0, 0, 0.4);
         }
 
-        /* --- MOBILE OPTIMIZATION RESET --- */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html {
-            width: 100%;
-            height: 100dvh; /* Dynamic Height for Mobile Browsers */
-            background-color: #000;
-            font-family: 'Lato', sans-serif;
-            overflow: hidden;
-            /* Prevent pulling to refresh on mobile */
+            width: 100%; height: 100dvh; background-color: #000;
+            font-family: 'Lato', sans-serif; overflow: hidden;
             overscroll-behavior: none; 
         }
 
-        /* --- THE KEN BURNS SLIDESHOW --- */
+        /* --- THE SLIDESHOW --- */
         .slideshow {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0;
-            pointer-events: none;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
         }
 
         .slide {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center; /* Center focus on baby's face */
-            opacity: 0;
-            transform: scale(1.15);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            opacity: 0; transform: scale(1.15);
         }
 
-        /* 
-           YOUR IMAGES: 
-           Make sure 1.jpg, 2.jpg, 3.jpg are uploaded to GitHub!
-        */
+        /* Ensure 1.jpg, 2.jpg, 3.jpg exist in your GitHub! */
         .slide:nth-child(1) { background-image: url('1.jpg'); animation: kenBurns 18s infinite; }
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 18s infinite 6s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 18s infinite 12s; }
 
-        /* The Cinematic Gradient (Dark at bottom for text readability) */
         .overlay {
-            position: absolute;
-            bottom: 0; left: 0; width: 100%; height: 70%;
-            background: linear-gradient(to top, #000 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 75%;
+            background: linear-gradient(to top, #000 15%, rgba(0,0,0,0.6) 50%, transparent 100%);
             z-index: 1;
         }
 
-        /* --- SCREEN 1: TAP TO OPEN --- */
+        /* --- SCREEN 1: INTRO --- */
         #intro {
-            position: absolute;
-            z-index: 20;
-            width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: #000;
-            transition: opacity 1.5s ease;
+            position: absolute; z-index: 20; width: 100%; height: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: #000; transition: opacity 1.5s ease;
         }
-
         .heart-icon {
-            font-size: 3.5rem;
-            animation: heartBeat 1.5s infinite;
+            font-size: 3.5rem; animation: heartBeat 1.5s infinite; cursor: pointer;
             filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.6));
-            cursor: pointer;
         }
-
         .tap-msg {
             color: white; font-size: 0.8rem; letter-spacing: 4px; 
             margin-top: 20px; text-transform: uppercase; opacity: 0.7;
         }
+        /* Music hint */
+        .sound-hint {
+            color: var(--primary-gold); font-size: 0.6rem; margin-top: 10px; 
+            opacity: 0.8; letter-spacing: 1px;
+        }
 
-        /* --- SCREEN 2: THE REVEAL CONTENT --- */
+        /* --- SCREEN 2: REVEAL --- */
         #content {
-            position: absolute;
-            z-index: 10;
-            bottom: 0; /* Anchor to bottom for mobile */
-            left: 0;
-            width: 100%;
-            padding: 0 20px 50px 20px; /* Padding for iPhone Home Bar */
-            text-align: center;
-            opacity: 0;
-            transition: all 2s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform: translateY(30px);
+            position: absolute; z-index: 10; bottom: 0; left: 0; width: 100%;
+            padding: 0 20px 40px 20px; text-align: center;
+            opacity: 0; transition: all 2s ease; transform: translateY(30px);
         }
 
-        .pre-title {
-            font-family: 'Pinyon Script', cursive;
-            font-size: 2rem;
-            color: #ffdae0; /* Soft Pink */
-            margin-bottom: -10px;
-        }
+        .pre-title { font-family: 'Pinyon Script', cursive; font-size: 1.8rem; color: #ffdae0; }
 
         .name-hero {
             font-family: 'Cinzel', serif;
-            font-size: clamp(3.5rem, 15vw, 6rem); /* Huge on desktop, perfect on mobile */
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 4px;
+            font-size: clamp(3.5rem, 15vw, 6rem); 
+            font-weight: 800; text-transform: uppercase; letter-spacing: 3px;
             color: white;
             background: linear-gradient(45deg, #fff, var(--primary-gold), #fff);
-            background-size: 200%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             animation: goldShine 4s linear infinite;
-            margin-bottom: 5px;
             filter: drop-shadow(0 5px 15px rgba(0,0,0,1));
+            margin: -5px 0 10px 0;
         }
 
         .meaning {
-            font-family: 'Lato', sans-serif;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 6px;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 25px;
+            font-size: 0.75rem; letter-spacing: 5px; color: rgba(255,255,255,0.7);
+            margin-bottom: 25px; text-transform: uppercase;
         }
 
-        /* --- THE STATS GRID --- */
         .stats-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            border-top: 1px solid rgba(238, 187, 85, 0.4); /* Gold Line */
-            padding-top: 20px;
+            display: flex; justify-content: center; gap: 20px;
+            border-top: 1px solid rgba(238, 187, 85, 0.4); padding-top: 20px; margin-bottom: 30px;
         }
-
         .stat-box {
-            display: flex;
-            flex-direction: column;
-            color: rgba(255,255,255,0.9);
-            font-family: 'Lato', sans-serif;
-            font-weight: 300;
-            font-size: 0.9rem;
-            position: relative;
+            display: flex; flex-direction: column; color: rgba(255,255,255,0.95);
+            font-size: 0.9rem; font-weight: 400;
         }
-        
-        .stat-box::after {
-            content: "|";
-            position: absolute;
-            right: -10px;
-            color: rgba(255,255,255,0.2);
+        .stat-label { font-size: 0.65rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;}
+
+        /* SHARE BUTTON */
+        .share-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 25px; border-radius: 50px;
+            color: white; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;
+            cursor: pointer; backdrop-filter: blur(10px);
+            display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .stat-box:last-child::after { display: none; }
 
-        .stat-label { font-size: 0.65rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;}
-
-        /* --- ANIMATIONS --- */
         @keyframes kenBurns {
-            0% { opacity: 0; transform: scale(1.15); z-index: 1; }
-            10% { opacity: 1; }
-            33% { opacity: 1; transform: scale(1.0); z-index: 1; }
-            45% { opacity: 0; z-index: 0; }
-            100% { opacity: 0; }
+            0% { opacity: 0; transform: scale(1.15); z-index: 1; } 10% { opacity: 1; }
+            33% { opacity: 1; transform: scale(1.0); z-index: 1; } 45% { opacity: 0; z-index: 0; } 100% { opacity: 0; }
         }
         @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
         @keyframes goldShine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
-
     </style>
 </head>
 <body>
 
-    <!-- 1. SLIDESHOW (Automatic) -->
+    <!-- 🎵 MUSIC PLAYER -->
+    <!-- This assumes you uploaded music.mp3 to GitHub -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- IMAGES -->
     <div class="slideshow">
-        <div class="slide"></div> <!-- Photo 1 -->
-        <div class="slide"></div> <!-- Photo 2 -->
-        <div class="slide"></div> <!-- Photo 3 -->
+        <div class="slide"></div>
+        <div class="slide"></div>
+        <div class="slide"></div>
     </div>
     
-    <!-- Dark Gradient for Text Readability -->
     <div class="overlay"></div>
 
-    <!-- 2. OPENING SCREEN -->
+    <!-- INTRO -->
     <div id="intro" onclick="startShow()">
         <div class="heart-icon">🩷</div>
-        <div class="tap-msg">Tap to Meet Her</div>
+        <div class="tap-msg">Tap to Reveal</div>
+        <div class="sound-hint">🔊 Turn on Sound</div>
     </div>
 
-    <!-- 3. REVEAL CONTENT (Bottom of Screen) -->
+    <!-- CONTENT -->
     <div id="content">
         <div class="pre-title">Goddess of Saraswathi</div>
         <h1 class="name-hero">NYRA</h1>
         <div class="meaning">Beauty • Light • Wisdom</div>
 
-        <!-- The Birth Stats -->
         <div class="stats-container">
             <div class="stat-box">
                 <span class="stat-label">Born</span>
@@ -212,28 +161,57 @@
             </div>
             <div class="stat-box">
                 <span class="stat-label">Time</span>
-                08:03 AM
+                8:03 AM
             </div>
+        </div>
+
+        <!-- SHARE -->
+        <div onclick="shareLink()" class="share-btn">
+            Share Link ➦
         </div>
     </div>
 
     <script>
         function startShow() {
-            // Android Haptics
-            if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
-
+            // 1. Android Vibrate
+            if (navigator.vibrate) navigator.vibrate([50, 50]);
+            
+            // 2. Music & Visuals
             const intro = document.getElementById('intro');
             const content = document.getElementById('content');
+            const music = document.getElementById('bgMusic');
 
-            // 1. Hide Intro
+            // Play Music (Must happen on click/tap)
+            // It will fail if music.mp3 is not uploaded
+            music.volume = 0.6; // 60% volume is polite
+            music.play().catch(error => {
+                console.log("Music play failed - file might be missing or permission denied");
+            });
+
+            // 3. Animations
             intro.style.opacity = '0';
             setTimeout(() => { intro.style.display = 'none'; }, 1500);
-
-            // 2. Reveal Content (Slight delay for cinematic effect)
+            
             setTimeout(() => {
                 content.style.opacity = '1';
                 content.style.transform = 'translateY(0)';
             }, 800);
+        }
+
+        function shareLink() {
+            const url = window.location.href;
+            const text = "Meet our little Princess NYRA! 🌸✨ " + url;
+            
+            // Check if mobile for native share, else open WhatsApp
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Baby Nyra Name Reveal',
+                    text: text,
+                    url: url
+                }).catch(console.error);
+            } else {
+                window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
+            }
         }
     </script>
 </body>
