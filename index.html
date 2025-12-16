@@ -23,11 +23,13 @@
         /* --- IMAGES & ANIMATION --- */
         .slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transform: scale(1.15); }
+        
+        /* Your 3 Images */
         .slide:nth-child(1) { background-image: url('1.jpg'); animation: kenBurns 18s infinite; }
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 18s infinite 6s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 18s infinite 12s; }
         
-        /* Dark Gradient at bottom to make text readable */
+        /* Dark Gradient to make text readable */
         .overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 80%; background: linear-gradient(to top, #000 20%, rgba(0,0,0,0.6) 60%, transparent 100%); z-index: 1; }
 
         /* --- INTRO SCREEN --- */
@@ -50,14 +52,14 @@
         /* --- MAIN CONTENT --- */
         #content { 
             position: absolute; z-index: 10; bottom: 0; left: 0; width: 100%; 
-            padding: 0 20px 40px 20px; 
+            padding: 0 20px 50px 20px; 
             text-align: center; opacity: 0; 
             transition: all 2s ease; transform: translateY(30px); 
         }
         
         .pre-title { font-family: 'Pinyon Script', cursive; font-size: 1.8rem; color: #ffdae0; }
         
-        /* THE NAME NYRA */
+        /* NAME */
         .name-hero { 
             font-family: 'Cinzel', serif; 
             font-size: clamp(3.5rem, 15vw, 6rem); 
@@ -72,28 +74,20 @@
         
         .meaning { font-size: 0.75rem; letter-spacing: 5px; color: rgba(255,255,255,0.7); margin-bottom: 25px; text-transform: uppercase; }
         
-        /* Stats Container (Born, Day, Time) */
+        /* STATS (Born/Day/Time) */
         .stats-container { 
             display: flex; justify-content: center; gap: 20px; 
             border-top: 1px solid rgba(238, 187, 85, 0.4); 
             padding-top: 20px; margin-bottom: 25px;
-            /* TV FIX: Limit width */
+            /* TV/Desktop Fix */
             max-width: 500px; margin-left: auto; margin-right: auto;
         }
         
         .stat-box { display: flex; flex-direction: column; color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 400; }
         .stat-label { font-size: 0.65rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;}
 
-        .share-btn { 
-            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); 
-            padding: 12px 25px; border-radius: 50px; color: white; font-size: 0.8rem; 
-            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; 
-            backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 8px; 
-        }
-
-        /* MEDIA QUERIES */
+        /* MEDIA QUERIES FOR DESKTOP/TV */
         @media (min-width: 768px) {
-            .share-btn { display: none !important; } /* Hide share on Laptop */
             .tap-msg { font-size: 1.5rem; margin-top: 40px; }
             .heart-btn { width: 150px; height: 150px; font-size: 4rem; }
             #content { padding-bottom: 60px; }
@@ -107,7 +101,7 @@
 </head>
 <body>
 
-    <!-- AUDIO (If music.mp3 is missing, it will just fail silently which is fine) -->
+    <!-- AUDIO -->
     <audio id="bgMusic">
         <source src="music.mp3" type="audio/mp3">
     </audio>
@@ -137,16 +131,16 @@
             <div class="stat-box"><span class="stat-label">Time</span>8:03 AM</div>
         </div>
         
-        <!-- Only shows on mobile -->
-        <div onclick="shareLink()" class="share-btn">Share Link ➦</div>
     </div>
 
     <script>
         function startShow() {
+            // Attempt Audio
             const music = document.getElementById('bgMusic');
             music.volume = 0.8; 
-            music.play().catch(e => { /* Ignore audio errors */ });
+            music.play().catch(e => { });
 
+            // Attempt Vibration
             if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
             
             const intro = document.getElementById('intro');
@@ -158,16 +152,6 @@
                 content.style.opacity = '1';
                 content.style.transform = 'translateY(0)';
             }, 800);
-        }
-
-        function shareLink() {
-            const url = window.location.href;
-            const text = "Meet Princess NYRA! 🌸 " + url;
-            if (navigator.share) {
-                navigator.share({ title: 'Baby Nyra', text: text, url: url }).catch(console.error);
-            } else {
-                window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
-            }
         }
     </script>
 </body>
