@@ -20,13 +20,12 @@
             overscroll-behavior: none; 
         }
 
-        /* --- BACKGROUND IMAGES --- */
+        /* --- BACKGROUND --- */
         .slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        /* "contain" ensures the whole photo fits without zooming in too much on big screens */
         .slide { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background-size: cover; 
-            background-position: center; 
+            background-position: center 30%; /* Focus slightly higher to keep face up */
             opacity: 0; transform: scale(1.1); 
         }
         
@@ -34,14 +33,14 @@
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 18s infinite 6s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 18s infinite 12s; }
         
-        /* Darker Gradient at bottom to make text readable */
+        /* Stronger Gradient to make text readable and pop */
         .overlay { 
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; 
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%); 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; 
+            background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, transparent 100%); 
             z-index: 1; 
         }
 
-        /* --- INTRO SCREEN --- */
+        /* --- INTRO --- */
         #intro { position: absolute; z-index: 20; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 1.5s ease; }
         
         .heart-btn {
@@ -52,22 +51,18 @@
             cursor: pointer; animation: heartBeat 1.5s infinite;
         }
 
-        .tap-msg { 
-            color: white; font-size: 1rem; font-weight: bold; 
-            letter-spacing: 2px; margin-top: 25px; 
-            text-transform: uppercase; opacity: 0.9;
-        }
+        .tap-msg { color: white; font-size: 1rem; font-weight: bold; letter-spacing: 2px; margin-top: 25px; text-transform: uppercase; opacity: 0.9; }
 
-        /* --- MAIN CONTENT --- */
+        /* --- CONTENT --- */
         #content { 
             position: absolute; z-index: 10; bottom: 0; left: 0; width: 100%; 
-            /* Push content closer to bottom */
+            /* Push really low */
             padding: 0 20px 20px 20px; 
             text-align: center; opacity: 0; 
             transition: all 2s ease; transform: translateY(30px); 
         }
         
-        .pre-title { font-family: 'Pinyon Script', cursive; font-size: 1.8rem; color: #ffdae0; }
+        .pre-title { font-family: 'Pinyon Script', cursive; font-size: 1.5rem; color: #ffdae0; opacity: 0.9; margin-bottom: 5px; }
         
         .name-hero { 
             font-family: 'Cinzel', serif; 
@@ -78,52 +73,44 @@
             background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
             animation: goldShine 4s linear infinite; 
             filter: drop-shadow(0 5px 15px rgba(0,0,0,1)); 
-            margin: -5px 0 10px 0; 
+            margin: 0; line-height: 1;
         }
         
-        .meaning { font-size: 0.75rem; letter-spacing: 5px; color: rgba(255,255,255,0.7); margin-bottom: 25px; text-transform: uppercase; }
+        .meaning { font-size: 0.75rem; letter-spacing: 6px; color: rgba(255,255,255,0.7); margin-bottom: 25px; margin-top: 10px; text-transform: uppercase; }
         
-        /* Stats (Born/Day/Time) */
         .stats-container { 
-            display: flex; justify-content: center; gap: 25px; 
-            border-top: 1px solid rgba(238, 187, 85, 0.5); 
-            padding-top: 20px; margin-bottom: 20px;
+            display: flex; justify-content: center; gap: 30px; 
+            border-top: 1px solid rgba(238, 187, 85, 0.4); 
+            padding-top: 20px; margin-bottom: 10px;
             max-width: 600px; margin-left: auto; margin-right: auto;
         }
         
-        .stat-box { display: flex; flex-direction: column; color: rgba(255,255,255,1); font-size: 1rem; font-weight: 700; }
-        .stat-label { font-size: 0.7rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; opacity: 0.8;}
+        .stat-box { display: flex; flex-direction: column; color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 400; }
+        .stat-label { font-size: 0.65rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;}
 
-        /* --- LARGE SCREEN / TV / LAPTOP OPTIMIZATIONS --- */
-        /* Specifically fixes the overlay issue */
+        /* --- BIG SCREEN FIXES --- */
         @media (min-width: 1000px) {
             
-            /* Make text stay at BOTTOM so face is clear */
-            #content { 
-                bottom: 30px;
-                padding-bottom: 0;
-            }
+            /* Background alignment for widescreen */
+            .slide { background-position: center 40%; }
 
-            /* Make Name Huge but shorter vertically */
-            .name-hero { 
-                font-size: 8rem; 
-                line-height: 1;
-                margin-top: 0;
-            }
-
-            .pre-title { font-size: 2.5rem; margin-bottom: 0; }
-            .meaning { margin-bottom: 30px; letter-spacing: 12px; }
-
-            /* Make Stats BIG and BOLD */
-            .stats-container { border-top: 2px solid rgba(238, 187, 85, 0.4); }
-            .stat-box { font-size: 1.8rem; font-weight: 400; font-family: 'Playfair Display', serif; }
-            .stat-label { font-size: 0.9rem; font-family: 'Lato', sans-serif; font-weight: 300; }
+            /* Text positioning */
+            #content { padding-bottom: 30px; }
             
+            /* Text sizing */
+            .pre-title { font-size: 2rem; margin-bottom: 0px; }
+            .name-hero { font-size: 8rem; margin: 10px 0; }
+            .meaning { margin-bottom: 40px; }
+            
+            .stats-container { border-top: 2px solid rgba(238, 187, 85, 0.3); }
+            .stat-box { font-size: 1.5rem; font-family: 'Playfair Display', serif; }
+            .stat-label { font-size: 0.8rem; font-family: 'Lato', sans-serif; }
+
             .heart-btn { width: 140px; height: 140px; font-size: 4rem; }
-            .tap-msg { font-size: 1.5rem; }
+            .tap-msg { font-size: 1.5rem; margin-top: 40px; }
         }
 
-        @keyframes kenBurns { 0% { opacity: 0; transform: scale(1.1); z-index: 1; } 10% { opacity: 1; } 33% { opacity: 1; transform: scale(1.0); z-index: 1; } 45% { opacity: 0; z-index: 0; } 100% { opacity: 0; } }
+        @keyframes kenBurns { 0% { opacity: 0; transform: scale(1.15); z-index: 1; } 10% { opacity: 1; } 33% { opacity: 1; transform: scale(1.0); z-index: 1; } 45% { opacity: 0; z-index: 0; } 100% { opacity: 0; } }
         @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
         @keyframes goldShine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
     </style>
@@ -140,15 +127,14 @@
         <div class="slide"></div>
         <div class="slide"></div>
     </div>
+    
     <div class="overlay"></div>
 
-    <!-- INTRO -->
     <div id="intro" onclick="startShow()">
         <div class="heart-btn">🩷</div>
         <div class="tap-msg">Tap to Meet Her</div>
     </div>
 
-    <!-- CONTENT -->
     <div id="content">
         <div class="pre-title">Goddess of Saraswathi</div>
         <h1 class="name-hero">NYRA</h1>
