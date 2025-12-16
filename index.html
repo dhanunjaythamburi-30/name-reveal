@@ -9,45 +9,103 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;800&family=Pinyon+Script&family=Lato:wght@300;700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary-gold: #eebb55; --soft-white: #fafafa; }
+        :root { --primary-gold: #eebb55; }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { width: 100%; height: 100dvh; background-color: #000; font-family: 'Lato', sans-serif; overflow: hidden; overscroll-behavior: none; }
+        
+        body, html { 
+            width: 100%; height: 100dvh; 
+            background-color: #000; 
+            font-family: 'Lato', sans-serif; 
+            overflow: hidden; 
+            overscroll-behavior: none; 
+        }
 
+        /* --- IMAGES & ANIMATION --- */
         .slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0; transform: scale(1.15); }
         .slide:nth-child(1) { background-image: url('1.jpg'); animation: kenBurns 18s infinite; }
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 18s infinite 6s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 18s infinite 12s; }
+        .overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 80%; background: linear-gradient(to top, #000 20%, rgba(0,0,0,0.6) 60%, transparent 100%); z-index: 1; }
 
-        .overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: linear-gradient(to top, #000 15%, rgba(0,0,0,0.6) 50%, transparent 100%); z-index: 1; }
-
+        /* --- INTRO SCREEN --- */
         #intro { position: absolute; z-index: 20; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 1.5s ease; }
-        .heart-icon { font-size: 3.5rem; animation: heartBeat 1.5s infinite; cursor: pointer; filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.6)); }
-        .tap-msg { color: white; font-size: 0.8rem; letter-spacing: 4px; margin-top: 20px; text-transform: uppercase; opacity: 0.7; }
-        .sound-hint { color: var(--primary-gold); font-size: 0.6rem; margin-top: 10px; opacity: 0.8; letter-spacing: 1px; }
+        
+        .heart-btn {
+            background: linear-gradient(135deg, #ff80ab, #ff4081);
+            width: 100px; height: 100px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; box-shadow: 0 0 30px rgba(255, 64, 129, 0.6);
+            cursor: pointer; animation: heartBeat 1.5s infinite;
+        }
 
-        #content { position: absolute; z-index: 10; bottom: 0; left: 0; width: 100%; padding: 0 20px 40px 20px; text-align: center; opacity: 0; transition: all 2s ease; transform: translateY(30px); }
+        .tap-msg { 
+            color: white; font-size: 1rem; font-weight: bold; 
+            letter-spacing: 2px; margin-top: 25px; 
+            text-transform: uppercase; opacity: 0.9;
+        }
+
+        /* --- MAIN CONTENT --- */
+        #content { 
+            position: absolute; z-index: 10; bottom: 0; left: 0; width: 100%; 
+            padding: 0 20px 40px 20px; 
+            text-align: center; opacity: 0; 
+            transition: all 2s ease; transform: translateY(30px); 
+        }
+        
         .pre-title { font-family: 'Pinyon Script', cursive; font-size: 1.8rem; color: #ffdae0; }
         .name-hero { font-family: 'Cinzel', serif; font-size: clamp(3.5rem, 15vw, 6rem); font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: white; background: linear-gradient(45deg, #fff, var(--primary-gold), #fff); background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: goldShine 4s linear infinite; filter: drop-shadow(0 5px 15px rgba(0,0,0,1)); margin: -5px 0 10px 0; }
         .meaning { font-size: 0.75rem; letter-spacing: 5px; color: rgba(255,255,255,0.7); margin-bottom: 25px; text-transform: uppercase; }
-
-        .stats-container { display: flex; justify-content: center; gap: 20px; border-top: 1px solid rgba(238, 187, 85, 0.4); padding-top: 20px; margin-bottom: 30px; }
+        
+        /* Stats Container (Fixed for TV) */
+        .stats-container { 
+            display: flex; justify-content: center; gap: 20px; 
+            border-top: 1px solid rgba(238, 187, 85, 0.4); 
+            padding-top: 20px; margin-bottom: 25px;
+            /* TV FIX: Limit width so the line isn't too long */
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
         .stat-box { display: flex; flex-direction: column; color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 400; }
         .stat-label { font-size: 0.65rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px;}
-        .share-btn { background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px 25px; border-radius: 50px; color: white; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+
+        /* Equalizer Animation */
+        .equalizer { height: 20px; display: flex; justify-content: center; align-items: flex-end; gap: 3px; margin-top: 10px; opacity: 0; transition: opacity 1s; }
+        .bar { width: 3px; background: var(--primary-gold); animation: eq 1s infinite ease-in-out; }
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.4s; }
+        .bar:nth-child(4) { animation-delay: 0.1s; }
+
+        .share-btn { 
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.2); 
+            padding: 12px 25px; border-radius: 50px; color: white; font-size: 0.8rem; 
+            text-transform: uppercase; letter-spacing: 2px; cursor: pointer; 
+            backdrop-filter: blur(10px); display: inline-flex; align-items: center; gap: 8px; 
+        }
+
+        /* --- MEDIA QUERIES (INTELLIGENT SCREEN SIZING) --- */
+        @media (min-width: 768px) {
+            /* If screen is Laptop/Tablet/TV size */
+            .share-btn { display: none !important; } /* Hide share button */
+            .tap-msg { font-size: 1.5rem; margin-top: 40px; } /* Bigger text */
+            .heart-btn { width: 150px; height: 150px; font-size: 4rem; } /* Bigger heart */
+            #content { padding-bottom: 60px; }
+            .name-hero { font-size: 6rem; } /* Fixed max size for name */
+        }
 
         @keyframes kenBurns { 0% { opacity: 0; transform: scale(1.15); z-index: 1; } 10% { opacity: 1; } 33% { opacity: 1; transform: scale(1.0); z-index: 1; } 45% { opacity: 0; z-index: 0; } 100% { opacity: 0; } }
         @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
         @keyframes goldShine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
+        @keyframes eq { 0% { height: 3px; } 50% { height: 15px; } 100% { height: 3px; } }
     </style>
 </head>
 <body>
-    
-    <!-- 1. AUDIO ELEMENT (Preload enabled) -->
-    <!-- ensure file is named exactly: music.mp3 -->
-    <audio id="bgMusic" preload="auto">
-        <source src="./music.mp3" type="audio/mp3">
-        <source src="./music.mp3" type="audio/mpeg">
+
+    <!-- AUDIO -->
+    <audio id="bgMusic">
+        <source src="music.mp3" type="audio/mp3">
     </audio>
 
     <div class="slideshow">
@@ -55,61 +113,51 @@
         <div class="slide"></div>
         <div class="slide"></div>
     </div>
-    
     <div class="overlay"></div>
 
+    <!-- INTRO -->
     <div id="intro" onclick="startShow()">
-        <div class="heart-icon">🩷</div>
-        <div class="tap-msg">Tap to Reveal</div>
-        <div class="sound-hint">🔊 Tap & Check Volume</div>
+        <div class="heart-btn">🩷</div>
+        <div class="tap-msg">Tap to Meet Her</div>
     </div>
 
+    <!-- CONTENT -->
     <div id="content">
         <div class="pre-title">Goddess of Saraswathi</div>
         <h1 class="name-hero">NYRA</h1>
         <div class="meaning">Beauty • Light • Wisdom</div>
 
         <div class="stats-container">
-            <div class="stat-box">
-                <span class="stat-label">Born</span>
-                27.11.2025
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Day</span>
-                Thursday
-            </div>
-            <div class="stat-box">
-                <span class="stat-label">Time</span>
-                8:03 AM
-            </div>
+            <div class="stat-box"><span class="stat-label">Born</span>27.11.2025</div>
+            <div class="stat-box"><span class="stat-label">Day</span>Thursday</div>
+            <div class="stat-box"><span class="stat-label">Time</span>8:03 AM</div>
         </div>
+        
         <div onclick="shareLink()" class="share-btn">Share Link ➦</div>
+        
+        <div class="equalizer" id="eq">
+            <div class="bar" style="height: 5px;"></div>
+            <div class="bar" style="height: 10px;"></div>
+            <div class="bar" style="height: 15px;"></div>
+            <div class="bar" style="height: 8px;"></div>
+            <div class="bar" style="height: 12px;"></div>
+        </div>
     </div>
 
     <script>
         function startShow() {
-            // FORCE AUDIO PLAY
+            // Audio Play
             const music = document.getElementById('bgMusic');
-            
-            // This is the debug logic
-            var playPromise = music.play();
-
-            if (playPromise !== undefined) {
-                playPromise.then(_ => {
-                    // Audio is playing!
-                    console.log("Audio playing");
+            music.volume = 0.8; 
+            music.play()
+                .then(() => {
+                    document.getElementById('eq').style.opacity = '1';
                 })
-                .catch(error => {
-                    console.log("Audio Error:", error);
-                    // If error, try one more hack
-                    music.muted = false;
-                    music.volume = 0.5;
-                    music.play();
+                .catch(e => {
+                    console.log("Audio requires tap");
                 });
-            }
 
-            // Haptic Feedback
-            if (navigator.vibrate) navigator.vibrate([50, 50]);
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
             
             const intro = document.getElementById('intro');
             const content = document.getElementById('content');
@@ -130,11 +178,6 @@
             } else {
                 window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank");
             }
-        }
-        
-        // Try to load audio immediately when page loads
-        window.onload = function() {
-            document.getElementById('bgMusic').load();
         }
     </script>
 </body>
