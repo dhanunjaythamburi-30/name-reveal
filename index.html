@@ -115,14 +115,26 @@
 
         /* --- INTRO & COUNTDOWN --- */
         #intro { position: absolute; z-index: 50; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 0.8s ease; cursor: pointer; }
+        
         .heart-btn {
             background: radial-gradient(circle at 30% 30%, #ff80ab, #ff4081);
-            width: 140px; height: 140px; border-radius: 50%;
+            width: 110px; height: 110px; border-radius: 50%; /* Back to elegant size */
             display: flex; align-items: center; justify-content: center;
-            font-size: 4rem; box-shadow: 0 0 50px rgba(255, 64, 129, 0.4);
+            font-size: 3rem; 
+            box-shadow: 0 0 50px rgba(255, 64, 129, 0.4);
             cursor: pointer; animation: heartBeat 2s ease-in-out infinite;
+            border: 2px solid rgba(255,255,255,0.2);
         }
-        .tap-msg { color: #fff; font-size: 1.2rem; letter-spacing: 4px; margin-top: 30px; text-transform: uppercase; opacity: 0.8; }
+        /* RESTORED ORIGINAL ELEGANT TEXT */
+        .tap-msg { 
+            color: #fff; 
+            font-size: 0.9rem; /* Clean, small font */
+            letter-spacing: 3px; 
+            margin-top: 30px; 
+            text-transform: uppercase; 
+            opacity: 0.7; 
+            font-family: 'Lato', sans-serif;
+        }
 
         #countdown-screen {
             position: absolute; z-index: 40; width: 100%; height: 100%;
@@ -170,10 +182,10 @@
     <div class="overlay"></div>
     <div id="white-flash"></div>
 
-    <!-- START SCREEN -->
+    <!-- START SCREEN - Restored "Tap to Meet Her" -->
     <div id="intro" onclick="startCeremonyMode()">
         <div class="heart-btn">🩷</div>
-        <div class="tap-msg">Tap to Start Ceremony</div>
+        <div class="tap-msg">Tap to Meet Her</div>
     </div>
     
     <div id="countdown-screen">
@@ -199,7 +211,7 @@
             
             // 2. Play Audio (Volume Reduced to 0.4)
             const timerAudio = document.getElementById('timerAudio');
-            timerAudio.volume = 0.4; // <--- CHANGED HERE (Soft ticking)
+            timerAudio.volume = 0.4; 
             timerAudio.play().catch(e => console.log("Audio waiting"));
 
             if (navigator.vibrate) navigator.vibrate(50);
