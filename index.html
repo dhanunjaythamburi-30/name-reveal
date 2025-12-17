@@ -51,7 +51,7 @@
         }
         .tap-msg { color: white; font-size: 1rem; font-weight: bold; letter-spacing: 2px; margin-top: 25px; text-transform: uppercase; opacity: 0.9; }
 
-        /* --- COUNTDOWN (Big Gold Numbers) --- */
+        /* --- COUNTDOWN SCREEN --- */
         #countdown-screen {
             position: absolute; z-index: 15; width: 100%; height: 100%;
             display: none; 
@@ -59,14 +59,21 @@
             background: #000; 
         }
         
+        /* NEW IMPROVED GOLD NUMBER STYLING */
         .count-number {
             font-family: 'Cinzel', serif;
-            font-size: 12rem; 
-            background: linear-gradient(45deg, #fff, var(--primary-gold));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            font-size: 12rem; /* Massive size */
             font-weight: 800;
+            
+            /* The Metallic Gold Effect */
+            background: linear-gradient(to bottom, #FFF5C3 0%, #E6C86E 30%, #D4AF37 50%, #8B6508 100%);
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+            
+            /* The Glowing Light Effect */
+            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.6));
+            
             opacity: 0;
-            text-shadow: 0 0 30px var(--primary-gold);
         }
         
         .anim-beat { animation: numberPop 0.9s cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards; }
@@ -125,12 +132,12 @@
 </head>
 <body>
 
-    <!-- 🎵 AUDIO 1: THE COUNTDOWN EFFECT -->
+    <!-- 🎵 AUDIO 1: COUNTDOWN -->
     <audio id="timerAudio">
         <source src="countdown.mp3" type="audio/mp3">
     </audio>
 
-    <!-- 🎵 AUDIO 2: THE MAIN FLUTE MUSIC -->
+    <!-- 🎵 AUDIO 2: MAIN FLUTE -->
     <audio id="mainAudio" loop>
         <source src="music.mp3" type="audio/mp3">
     </audio>
@@ -168,9 +175,12 @@
 
     <script>
         function startSequence() {
-            // 1. Play Countdown Audio ONLY
+            // 1. Play Countdown Audio (Lower Volume)
             const timerAudio = document.getElementById('timerAudio');
-            timerAudio.volume = 1.0; 
+            
+            // UPDATED: Volume reduced from 1.0 to 0.7 (Softer)
+            timerAudio.volume = 0.7; 
+            
             timerAudio.play().catch(e => { console.log("Audio issue"); });
 
             if (navigator.vibrate) navigator.vibrate(50);
@@ -209,13 +219,13 @@
         }
 
         function revealContent() {
-            // 2. STOP Countdown Audio & START Main Music
+            // Switch Audio
             const timerAudio = document.getElementById('timerAudio');
             const mainAudio = document.getElementById('mainAudio');
             
-            timerAudio.pause(); // Stop ticking
+            timerAudio.pause();
             mainAudio.volume = 0.8;
-            mainAudio.play().catch(e => { console.log("Main audio blocked"); }); // Start song
+            mainAudio.play().catch(e => { console.log("Main audio blocked"); });
             
             if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
             
