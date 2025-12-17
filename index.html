@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Baby Nyra - Ceremony Display</title>
+    <title>Baby Nyra - Celebration</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;900&family=Pinyon+Script&family=Lato:wght@300;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -16,14 +16,13 @@
             background-color: #000; 
             font-family: 'Lato', sans-serif; 
             overflow: hidden; 
-            cursor: none; /* Hides mouse cursor for clean TV display */
         }
 
-        /* --- BACKGROUND SLIDESHOW (Infinite Loop) --- */
+        /* --- BACKGROUND (Infinite Loop) --- */
         .slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .slide { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background-size: cover; background-position: center 35%;
+            background-size: cover; background-position: center 30%; /* Focus on face */
             opacity: 0; transform: scale(1.1); 
         }
         
@@ -31,10 +30,10 @@
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 24s infinite 8s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 24s infinite 16s; }
 
-        /* CLEAN OVERLAY */
+        /* OVERLAY - Darker at bottom for text readability on phones */
         .overlay { 
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 55%; 
-            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%); 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; 
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 60%, transparent 100%); 
             z-index: 1; 
         }
 
@@ -48,19 +47,22 @@
             box-shadow: 0 0 5px 2px rgba(255, 230, 150, 0.8); opacity: 0;
         }
 
-        /* --- MAIN CONTENT --- */
+        /* --- CONTENT WRAPPER --- */
         #content { 
             position: absolute; z-index: 30; bottom: 0; left: 0; width: 100%; 
-            padding: 0 20px 50px 20px; 
+            padding: 0 20px 30px 20px; /* Reduced padding for mobile */
             text-align: center; opacity: 0; 
+            display: flex; flex-direction: column; align-items: center;
         }
 
         .reveal-active {
             animation: cinemaReveal 3.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
         }
 
+        /* TYPOGRAPHY - MOBILE DEFAULT */
         .pre-title { 
-            font-family: 'Pinyon Script', cursive; font-size: 2rem; 
+            font-family: 'Pinyon Script', cursive; 
+            font-size: 1.5rem; /* Smaller for mobile */
             color: #fff0f5; margin-bottom: 0px; 
             text-shadow: 0 3px 6px rgba(0,0,0,0.9); 
             opacity: 0.95;
@@ -69,8 +71,11 @@
         /* PREMIUM TEXT */
         .name-hero { 
             font-family: 'Cinzel', serif; 
-            font-size: clamp(4rem, 18vw, 8rem); 
-            font-weight: 800; text-transform: uppercase; letter-spacing: 4px;
+            
+            /* Responsive Font Size: fits mobile, grows on TV */
+            font-size: clamp(3.5rem, 15vw, 9rem); 
+            
+            font-weight: 800; text-transform: uppercase; letter-spacing: 2px;
             
             background: linear-gradient(
                 120deg,
@@ -86,26 +91,35 @@
             -webkit-text-fill-color: transparent;
             
             animation: shineText 5s linear infinite;
-            
             filter: drop-shadow(0 5px 20px rgba(0,0,0,0.9));
-            margin: 5px 0 25px 0; line-height: 1;
+            margin: 5px 0 15px 0; line-height: 1;
         }
         
         .meaning { 
-            font-size: 1rem; letter-spacing: 8px; color: rgba(255,255,255,0.95); 
-            text-transform: uppercase; margin-bottom: 30px; font-weight: 300;
+            font-size: 0.75rem; letter-spacing: 4px; color: rgba(255,255,255,0.95); 
+            text-transform: uppercase; margin-bottom: 20px; font-weight: 300;
             text-shadow: 0 2px 4px #000;
-            display: inline-block; padding: 10px 20px;
+            display: inline-block; padding: 8px 15px;
             border-top: 1px solid rgba(255,255,255,0.3); 
             border-bottom: 1px solid rgba(255,255,255,0.3); 
+            white-space: nowrap; /* Prevents awkward wrapping */
         }
         
+        /* STATS GRID - Better mobile spacing */
         .stats-container { 
-            display: flex; justify-content: center; gap: 40px; margin-top: 10px;
+            display: flex; justify-content: center; 
+            gap: 20px; /* Tighter gap for mobile */
+            margin-top: 5px;
+            width: 100%;
         }
         .stat-box { display: flex; flex-direction: column; color: #fff; font-family: 'Playfair Display', serif; }
-        .stat-label { font-family: 'Lato', sans-serif; font-size: 0.75rem; color: #eddfa6; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px;}
-        .stat-val { font-size: 1.5rem; text-shadow: 0 2px 4px #000; }
+        .stat-label { 
+            font-family: 'Lato', sans-serif; 
+            font-size: 0.6rem; color: #eddfa6; 
+            text-transform: uppercase; letter-spacing: 2px; 
+            margin-bottom: 3px;
+        }
+        .stat-val { font-size: 1.1rem; text-shadow: 0 2px 4px #000; }
 
         /* --- FLASH --- */
         #white-flash {
@@ -113,38 +127,41 @@
             background: white; z-index: 100; pointer-events: none; opacity: 0;
         }
 
-        /* --- INTRO & COUNTDOWN --- */
+        /* --- SCREENS --- */
         #intro { position: absolute; z-index: 50; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 0.8s ease; cursor: pointer; }
         
         .heart-btn {
             background: radial-gradient(circle at 30% 30%, #ff80ab, #ff4081);
-            width: 110px; height: 110px; border-radius: 50%; /* Back to elegant size */
+            width: 100px; height: 100px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; 
-            box-shadow: 0 0 50px rgba(255, 64, 129, 0.4);
+            font-size: 3rem; box-shadow: 0 0 50px rgba(255, 64, 129, 0.4);
             cursor: pointer; animation: heartBeat 2s ease-in-out infinite;
             border: 2px solid rgba(255,255,255,0.2);
         }
-        /* RESTORED ORIGINAL ELEGANT TEXT */
-        .tap-msg { 
-            color: #fff; 
-            font-size: 0.9rem; /* Clean, small font */
-            letter-spacing: 3px; 
-            margin-top: 30px; 
-            text-transform: uppercase; 
-            opacity: 0.7; 
-            font-family: 'Lato', sans-serif;
-        }
+        .tap-msg { color: #fff; font-size: 0.9rem; letter-spacing: 3px; margin-top: 30px; text-transform: uppercase; opacity: 0.7; }
 
         #countdown-screen {
             position: absolute; z-index: 40; width: 100%; height: 100%;
             display: none; flex-direction: column; align-items: center; justify-content: center; background: #000; 
         }
         .count-number {
-            font-family: 'Cinzel', serif; font-size: 15rem; font-weight: 500;
+            font-family: 'Cinzel', serif; font-size: 12rem; font-weight: 500;
             color: #fff; text-shadow: 0 0 40px rgba(212, 175, 55, 0.8); opacity: 0;
         }
         .anim-beat { animation: countPulse 0.9s ease forwards; }
+
+        /* --- BIG SCREEN OVERRIDES (Media Query) --- */
+        @media (min-width: 768px) {
+            #content { padding-bottom: 50px; }
+            .pre-title { font-size: 2.5rem; }
+            .name-hero { letter-spacing: 8px; margin: 10px 0 30px 0; }
+            .meaning { font-size: 1.2rem; letter-spacing: 10px; margin-bottom: 40px; }
+            .stats-container { gap: 60px; }
+            .stat-val { font-size: 2rem; }
+            .stat-label { font-size: 0.9rem; }
+            .heart-btn { width: 140px; height: 140px; font-size: 4rem; }
+            .tap-msg { font-size: 1.2rem; }
+        }
 
         /* --- ANIMATIONS --- */
         @keyframes shineText { to { background-position: 200% center; } }
@@ -157,18 +174,10 @@
             0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } 
         }
-        
-        @media (min-width: 768px) {
-            .name-hero { font-size: 9rem; }
-            .pre-title { font-size: 2.5rem; }
-            .stat-val { font-size: 2rem; }
-            .stat-label { font-size: 1rem; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- AUDIO SETUP -->
     <audio id="timerAudio"><source src="countdown.mp3" type="audio/mp3"></audio>
     <audio id="mainAudio" loop><source src="music.mp3" type="audio/mp3"></audio>
 
@@ -182,16 +191,18 @@
     <div class="overlay"></div>
     <div id="white-flash"></div>
 
-    <!-- START SCREEN - Restored "Tap to Meet Her" -->
+    <!-- START -->
     <div id="intro" onclick="startCeremonyMode()">
         <div class="heart-btn">🩷</div>
         <div class="tap-msg">Tap to Meet Her</div>
     </div>
     
+    <!-- COUNTDOWN -->
     <div id="countdown-screen">
         <div id="count-display" class="count-number">10</div>
     </div>
 
+    <!-- MAIN REVEAL -->
     <div id="content">
         <div class="pre-title">Goddess of Saraswathi</div>
         <h1 class="name-hero">NYRA</h1>
@@ -206,10 +217,10 @@
 
     <script>
         function startCeremonyMode() {
-            // 1. WAKE LOCK: Keep screen awake
+            // Keep Screen On
             requestWakeLock();
             
-            // 2. Play Audio (Volume Reduced to 0.4)
+            // Audio (Low Volume Tick)
             const timerAudio = document.getElementById('timerAudio');
             timerAudio.volume = 0.4; 
             timerAudio.play().catch(e => console.log("Audio waiting"));
@@ -264,10 +275,8 @@
                 flash.style.transition = "opacity 2.5s ease-out"; 
                 flash.style.opacity = '0';
 
-                // Initial Big Burst
                 createClassySparkles(window.innerHeight * 0.85, 60); 
                 
-                // Infinite Loops
                 startAmbientSparkles();
                 startAutoBurstLoop(); 
                 
@@ -276,7 +285,6 @@
             if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 500]);
         }
 
-        // --- EFFECT ENGINE ---
         function createClassySparkles(yPos, amount) {
             const container = document.getElementById('particles-container');
             for (let i = 0; i < amount; i++) {
