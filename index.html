@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Baby Nyra</title>
+    <title>Baby Nyra - Ceremony Display</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;800&family=Pinyon+Script&family=Lato:wght@300;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;900&family=Pinyon+Script&family=Lato:wght@300;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -16,14 +16,14 @@
             background-color: #000; 
             font-family: 'Lato', sans-serif; 
             overflow: hidden; 
-            overscroll-behavior: none; 
+            cursor: none; /* Hides mouse cursor for clean TV display */
         }
 
-        /* --- BACKGROUND SLIDES --- */
+        /* --- BACKGROUND SLIDESHOW (Infinite Loop) --- */
         .slideshow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .slide { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background-size: cover; background-position: center 30%; 
+            background-size: cover; background-position: center 35%;
             opacity: 0; transform: scale(1.1); 
         }
         
@@ -31,84 +31,81 @@
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 24s infinite 8s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 24s infinite 16s; }
 
-        /* CLEAN OVERLAY - Only darkens the bottom for text readability */
+        /* CLEAN OVERLAY */
         .overlay { 
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; 
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%); 
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 55%; 
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 50%, transparent 100%); 
             z-index: 1; 
         }
 
-        /* --- PARTICLES (Dust) --- */
+        /* --- PARTICLES --- */
         #particles-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 20; overflow: hidden;
         }
         .gold-particle {
             position: absolute; border-radius: 50%; background: #fff;
-            box-shadow: 0 0 5px 1px rgba(255, 230, 150, 0.8); opacity: 0;
+            box-shadow: 0 0 5px 2px rgba(255, 230, 150, 0.8); opacity: 0;
         }
 
         /* --- MAIN CONTENT --- */
         #content { 
             position: absolute; z-index: 30; bottom: 0; left: 0; width: 100%; 
-            padding: 0 20px 40px 20px; 
+            padding: 0 20px 50px 20px; 
             text-align: center; opacity: 0; 
         }
 
-        /* The Intro Zoom-Out Reveal */
         .reveal-active {
             animation: cinemaReveal 3.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
         }
 
         .pre-title { 
-            font-family: 'Pinyon Script', cursive; font-size: 1.8rem; 
+            font-family: 'Pinyon Script', cursive; font-size: 2rem; 
             color: #fff0f5; margin-bottom: 0px; 
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8); 
+            text-shadow: 0 3px 6px rgba(0,0,0,0.9); 
             opacity: 0.95;
         }
         
-        /* 
-           PREMIUM JEWELRY GOLD TEXT 
-           - High contrast (White -> Gold -> Deep Gold)
-           - Brighter look (removed the muddy browns)
-        */
+        /* PREMIUM TEXT */
         .name-hero { 
             font-family: 'Cinzel', serif; 
-            font-size: clamp(3.8rem, 16vw, 6.5rem); 
+            font-size: clamp(4rem, 18vw, 8rem); 
             font-weight: 800; text-transform: uppercase; letter-spacing: 4px;
             
             background: linear-gradient(
-                to bottom,
-                #ffffff 0%,   /* White Top Shine */
-                #fcf6ba 30%,  /* Soft Yellow */
-                #d4af37 60%,  /* Rich Gold */
-                #aa771c 100%  /* Deep Gold Base */
+                120deg,
+                #aa771c 0%,
+                #d4af37 20%,
+                #fffae3 45%,
+                #fffae3 55%, 
+                #d4af37 80%,
+                #aa771c 100%
             );
-            
+            background-size: 200% auto;
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent;
             
-            /* Clean shadow that doesn't muddy the photo */
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.8));
+            animation: shineText 5s linear infinite;
             
-            margin: 5px 0 20px 0; line-height: 1;
+            filter: drop-shadow(0 5px 20px rgba(0,0,0,0.9));
+            margin: 5px 0 25px 0; line-height: 1;
         }
         
         .meaning { 
-            font-size: 0.8rem; letter-spacing: 6px; color: rgba(255,255,255,0.9); 
-            text-transform: uppercase; margin-bottom: 30px; 
+            font-size: 1rem; letter-spacing: 8px; color: rgba(255,255,255,0.95); 
+            text-transform: uppercase; margin-bottom: 30px; font-weight: 300;
             text-shadow: 0 2px 4px #000;
             display: inline-block; padding: 10px 20px;
-            border-top: 1px solid rgba(255,255,255,0.4); 
-            border-bottom: 1px solid rgba(255,255,255,0.4); 
+            border-top: 1px solid rgba(255,255,255,0.3); 
+            border-bottom: 1px solid rgba(255,255,255,0.3); 
         }
         
         .stats-container { 
-            display: flex; justify-content: center; gap: 30px; margin-top: 10px;
+            display: flex; justify-content: center; gap: 40px; margin-top: 10px;
         }
         .stat-box { display: flex; flex-direction: column; color: #fff; font-family: 'Playfair Display', serif; }
-        .stat-label { font-family: 'Lato', sans-serif; font-size: 0.65rem; color: #eddfa6; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px;}
-        .stat-val { font-size: 1.2rem; text-shadow: 0 2px 4px #000; }
+        .stat-label { font-family: 'Lato', sans-serif; font-size: 0.75rem; color: #eddfa6; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 5px;}
+        .stat-val { font-size: 1.5rem; text-shadow: 0 2px 4px #000; }
 
         /* --- FLASH --- */
         #white-flash {
@@ -116,30 +113,31 @@
             background: white; z-index: 100; pointer-events: none; opacity: 0;
         }
 
-        /* --- INTRO & COUNTDOWN STYLES --- */
-        #intro { position: absolute; z-index: 50; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 0.8s ease; }
+        /* --- INTRO & COUNTDOWN --- */
+        #intro { position: absolute; z-index: 50; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 0.8s ease; cursor: pointer; }
         .heart-btn {
             background: radial-gradient(circle at 30% 30%, #ff80ab, #ff4081);
-            width: 110px; height: 110px; border-radius: 50%;
+            width: 140px; height: 140px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; box-shadow: 0 0 50px rgba(255, 64, 129, 0.4);
+            font-size: 4rem; box-shadow: 0 0 50px rgba(255, 64, 129, 0.4);
             cursor: pointer; animation: heartBeat 2s ease-in-out infinite;
         }
-        .tap-msg { color: #fff; font-size: 0.9rem; letter-spacing: 3px; margin-top: 30px; text-transform: uppercase; opacity: 0.7; }
+        .tap-msg { color: #fff; font-size: 1.2rem; letter-spacing: 4px; margin-top: 30px; text-transform: uppercase; opacity: 0.8; }
 
         #countdown-screen {
             position: absolute; z-index: 40; width: 100%; height: 100%;
             display: none; flex-direction: column; align-items: center; justify-content: center; background: #000; 
         }
         .count-number {
-            font-family: 'Cinzel', serif; font-size: 10rem; font-weight: 500;
+            font-family: 'Cinzel', serif; font-size: 15rem; font-weight: 500;
             color: #fff; text-shadow: 0 0 40px rgba(212, 175, 55, 0.8); opacity: 0;
         }
         .anim-beat { animation: countPulse 0.9s ease forwards; }
 
         /* --- ANIMATIONS --- */
+        @keyframes shineText { to { background-position: 200% center; } }
         @keyframes heartBeat { 0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255,64,129,0.4); } 50% { transform: scale(1.1); box-shadow: 0 0 60px rgba(255,64,129,0.7); } }
-        @keyframes kenBurns { 0% { opacity: 0; } 10% { opacity: 1; transform: scale(1.2); } 90% { opacity: 1; } 100% { opacity: 0; transform: scale(1); } }
+        @keyframes kenBurns { 0% { opacity: 0; } 10% { opacity: 1; transform: scale(1.15); } 90% { opacity: 1; } 100% { opacity: 0; transform: scale(1); } }
         @keyframes countPulse { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.5); } }
         @keyframes cinemaReveal { 0% { opacity: 0; transform: translateY(30px) scale(1.1); filter: blur(15px); } 100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
@@ -148,17 +146,17 @@
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } 
         }
         
-        /* Media Query for PC */
         @media (min-width: 768px) {
             .name-hero { font-size: 9rem; }
             .pre-title { font-size: 2.5rem; }
-            .stat-val { font-size: 1.8rem; }
+            .stat-val { font-size: 2rem; }
+            .stat-label { font-size: 1rem; }
         }
-
     </style>
 </head>
 <body>
 
+    <!-- AUDIO SETUP -->
     <audio id="timerAudio"><source src="countdown.mp3" type="audio/mp3"></audio>
     <audio id="mainAudio" loop><source src="music.mp3" type="audio/mp3"></audio>
 
@@ -168,25 +166,20 @@
         <div class="slide"></div>
     </div>
     
-    <!-- PARTICLES (Subtle Magic) -->
     <div id="particles-container"></div>
-    
-    <!-- CLEAN OVERLAY -->
     <div class="overlay"></div>
     <div id="white-flash"></div>
 
-    <!-- INTRO -->
-    <div id="intro" onclick="startSequence()">
+    <!-- START SCREEN -->
+    <div id="intro" onclick="startCeremonyMode()">
         <div class="heart-btn">🩷</div>
-        <div class="tap-msg">Tap to Meet Her</div>
+        <div class="tap-msg">Tap to Start Ceremony</div>
     </div>
     
-    <!-- COUNTDOWN -->
     <div id="countdown-screen">
         <div id="count-display" class="count-number">10</div>
     </div>
 
-    <!-- CONTENT -->
     <div id="content">
         <div class="pre-title">Goddess of Saraswathi</div>
         <h1 class="name-hero">NYRA</h1>
@@ -200,9 +193,13 @@
     </div>
 
     <script>
-        function startSequence() {
+        function startCeremonyMode() {
+            // 1. WAKE LOCK: Keep screen awake
+            requestWakeLock();
+            
+            // 2. Play Audio (Volume Reduced to 0.4)
             const timerAudio = document.getElementById('timerAudio');
-            timerAudio.volume = 0.8;
+            timerAudio.volume = 0.4; // <--- CHANGED HERE (Soft ticking)
             timerAudio.play().catch(e => console.log("Audio waiting"));
 
             if (navigator.vibrate) navigator.vibrate(50);
@@ -224,20 +221,19 @@
                 } else {
                     clearInterval(timer);
                     countScreen.style.display = 'none';
-                    triggerBigReveal(); 
+                    triggerForeverCelebration(); 
                 }
             }, 1000); 
         }
 
         function showNumber(num, element) {
             element.innerText = num;
-            if (navigator.vibrate) navigator.vibrate(30);
             element.classList.remove('anim-beat');
             void element.offsetWidth; 
             element.classList.add('anim-beat');
         }
 
-        function triggerBigReveal() {
+        function triggerForeverCelebration() {
             document.getElementById('timerAudio').pause();
             const mainAudio = document.getElementById('mainAudio');
             mainAudio.volume = 1.0;
@@ -250,38 +246,39 @@
             
             setTimeout(() => {
                 const content = document.getElementById('content');
-                
                 content.style.opacity = '1';
                 content.classList.add('reveal-active');
                 
                 flash.style.transition = "opacity 2.5s ease-out"; 
                 flash.style.opacity = '0';
 
-                // Subtle sparkles only
-                const explosionY = window.innerHeight * 0.85; 
-                createClassySparkles(explosionY); 
+                // Initial Big Burst
+                createClassySparkles(window.innerHeight * 0.85, 60); 
+                
+                // Infinite Loops
                 startAmbientSparkles();
+                startAutoBurstLoop(); 
                 
             }, 150);
 
             if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 500]);
         }
 
-        function createClassySparkles(yPos) {
+        // --- EFFECT ENGINE ---
+        function createClassySparkles(yPos, amount) {
             const container = document.getElementById('particles-container');
-            // Fewer particles for cleaner look
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < amount; i++) {
                 const p = document.createElement('div');
                 p.classList.add('gold-particle');
                 
-                const size = Math.random() * 3 + 1; 
+                const size = Math.random() * 3 + 2; 
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
                 p.style.left = '50%';
                 p.style.top = yPos + 'px';
                 
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 150 + 50; 
+                const velocity = Math.random() * 200 + 80; 
                 const tx = Math.cos(angle) * velocity + 'px';
                 const ty = Math.sin(angle) * velocity + 'px';
 
@@ -297,17 +294,34 @@
             setInterval(() => {
                 const p = document.createElement('div');
                 p.classList.add('gold-particle');
-                const size = Math.random() * 2 + 1; // very small dust
+                const size = Math.random() * 2 + 1; 
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
                 p.style.left = Math.random() * 100 + '%';
                 p.style.top = '100%'; 
                 p.style.opacity = Math.random() * 0.4 + 0.2; 
-                p.style.animation = `floatUp ${Math.random() * 8 + 8}s linear forwards`; // slow float
+                p.style.animation = `floatUp ${Math.random() * 8 + 8}s linear forwards`; 
                 container.appendChild(p);
                 setTimeout(() => { p.remove(); }, 16000);
             }, 400);
         }
+
+        function startAutoBurstLoop() {
+            setInterval(() => {
+                createClassySparkles(window.innerHeight * 0.88, 30); 
+            }, 8000); 
+        }
+
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    await navigator.wakeLock.request('screen');
+                    console.log('Screen Wake Lock active');
+                }
+            } catch (err) {
+                console.log(`${err.name}, ${err.message}`);
+            }
+        }
     </script>
 </body>
-</html>        
+</html>
