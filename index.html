@@ -40,7 +40,7 @@
         }
 
         /* --- INTRO --- */
-        #intro { position: absolute; z-index: 20; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 1s ease; }
+        #intro { position: absolute; z-index: 20; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #000; transition: opacity 0.5s ease; }
         
         .heart-btn {
             background: linear-gradient(135deg, #ff80ab, #ff4081);
@@ -51,29 +51,27 @@
         }
         .tap-msg { color: white; font-size: 1rem; font-weight: bold; letter-spacing: 2px; margin-top: 25px; text-transform: uppercase; opacity: 0.9; }
 
-        /* --- COUNTDOWN OVERLAY --- */
+        /* --- COUNTDOWN (Big Gold Numbers) --- */
         #countdown-screen {
             position: absolute; z-index: 15; width: 100%; height: 100%;
-            display: none; /* Hidden by default */
+            display: none; 
             flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.4); /* Slight dim */
+            background: #000; 
         }
         
         .count-number {
             font-family: 'Cinzel', serif;
-            font-size: 8rem;
-            color: #fff;
+            font-size: 12rem; 
             background: linear-gradient(45deg, #fff, var(--primary-gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             font-weight: 800;
             opacity: 0;
-            transform: scale(0.5);
-            /* This animation will be triggered via JS logic indirectly */
+            text-shadow: 0 0 30px var(--primary-gold);
         }
         
-        .anim-pop { animation: popIn 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .anim-beat { animation: numberPop 0.9s cubic-bezier(0.1, 0.7, 1.0, 0.1) forwards; }
 
-        /* --- MAIN CONTENT --- */
+        /* --- CONTENT --- */
         #content { 
             position: absolute; z-index: 10; bottom: 0; left: 0; width: 100%; 
             padding: 0 20px 20px 20px; 
@@ -94,6 +92,7 @@
             margin: 0; line-height: 1;
         }
         .meaning { font-size: 0.75rem; letter-spacing: 6px; color: rgba(255,255,255,0.7); margin-bottom: 25px; margin-top: 10px; text-transform: uppercase; }
+        
         .stats-container { 
             display: flex; justify-content: center; gap: 30px; 
             border-top: 1px solid rgba(238, 187, 85, 0.4); 
@@ -103,7 +102,7 @@
         .stat-box { display: flex; flex-direction: column; color: rgba(255,255,255,0.95); font-size: 0.9rem; font-weight: 400; }
         .stat-label { font-size: 0.65rem; color: var(--primary-gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; opacity: 0.8;}
 
-        /* --- TV / DESKTOP --- */
+        /* --- BIG SCREEN --- */
         @media (min-width: 1000px) {
             .slide { background-position: center 40%; }
             #content { padding-bottom: 30px; }
@@ -115,12 +114,10 @@
             .stat-label { font-size: 0.8rem; font-family: 'Lato', sans-serif; }
             .heart-btn { width: 140px; height: 140px; font-size: 4rem; }
             .tap-msg { font-size: 1.5rem; margin-top: 40px; }
-            
-            /* Bigger countdown on TV */
-            .count-number { font-size: 15rem; }
+            .count-number { font-size: 25rem; } 
         }
 
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.5); } }
+        @keyframes numberPop { 0% { opacity: 0; transform: scale(0.5); } 30% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.5); } }
         @keyframes kenBurns { 0% { opacity: 0; transform: scale(1.15); z-index: 1; } 10% { opacity: 1; } 33% { opacity: 1; transform: scale(1.0); z-index: 1; } 45% { opacity: 0; z-index: 0; } 100% { opacity: 0; } }
         @keyframes heartBeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
         @keyframes goldShine { 0% { background-position: 0% center; } 100% { background-position: 200% center; } }
@@ -128,8 +125,13 @@
 </head>
 <body>
 
-    <!-- AUDIO -->
-    <audio id="bgMusic">
+    <!-- 🎵 AUDIO 1: THE COUNTDOWN EFFECT -->
+    <audio id="timerAudio">
+        <source src="countdown.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- 🎵 AUDIO 2: THE MAIN FLUTE MUSIC -->
+    <audio id="mainAudio" loop>
         <source src="music.mp3" type="audio/mp3">
     </audio>
 
@@ -138,7 +140,6 @@
         <div class="slide"></div>
         <div class="slide"></div>
     </div>
-    
     <div class="overlay"></div>
 
     <!-- INTRO -->
@@ -149,7 +150,7 @@
     
     <!-- COUNTDOWN -->
     <div id="countdown-screen">
-        <div id="count-text" class="count-number">3</div>
+        <div id="count-display" class="count-number">10</div>
     </div>
 
     <!-- CONTENT -->
@@ -167,54 +168,57 @@
 
     <script>
         function startSequence() {
-            // 1. Start Audio Immediately
-            const music = document.getElementById('bgMusic');
-            music.volume = 0.8; 
-            music.play().catch(e => { });
+            // 1. Play Countdown Audio ONLY
+            const timerAudio = document.getElementById('timerAudio');
+            timerAudio.volume = 1.0; 
+            timerAudio.play().catch(e => { console.log("Audio issue"); });
 
-            // 2. Vibrate
             if (navigator.vibrate) navigator.vibrate(50);
             
-            // 3. Hide Intro
             const intro = document.getElementById('intro');
             intro.style.opacity = '0';
-            setTimeout(() => { intro.style.display = 'none'; }, 1000);
+            setTimeout(() => { intro.style.display = 'none'; }, 800);
 
-            // 4. Start Countdown
             const countScreen = document.getElementById('countdown-screen');
-            const countText = document.getElementById('count-text');
-            
+            const countDisplay = document.getElementById('count-display');
             countScreen.style.display = 'flex';
+
+            // 10 Second Countdown
+            let timeLeft = 10;
+            showNumber(timeLeft, countDisplay);
             
-            // Logic for 3.. 2.. 1..
-            runCount(3, countText, () => {
-                runCount(2, countText, () => {
-                    runCount(1, countText, () => {
-                        // REVEAL!
-                        countScreen.style.display = 'none';
-                        revealContent();
-                    });
-                });
-            });
+            const timer = setInterval(() => {
+                timeLeft--;
+                if(timeLeft > 0) {
+                    showNumber(timeLeft, countDisplay);
+                } else {
+                    clearInterval(timer);
+                    countScreen.style.display = 'none';
+                    revealContent();
+                }
+            }, 1000); 
         }
 
-        function runCount(num, element, callback) {
+        function showNumber(num, element) {
             element.innerText = num;
-            // Remove class to reset animation
-            element.classList.remove('anim-pop');
-            void element.offsetWidth; // Trigger Reflow
-            // Add class to start animation
-            element.classList.add('anim-pop');
+            if (navigator.vibrate) navigator.vibrate(30);
             
-            // Vibration tick
-            if (navigator.vibrate) navigator.vibrate(50);
-            
-            // Wait 1 second then callback
-            setTimeout(callback, 1000);
+            element.classList.remove('anim-beat');
+            void element.offsetWidth; 
+            element.classList.add('anim-beat');
         }
 
         function revealContent() {
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            // 2. STOP Countdown Audio & START Main Music
+            const timerAudio = document.getElementById('timerAudio');
+            const mainAudio = document.getElementById('mainAudio');
+            
+            timerAudio.pause(); // Stop ticking
+            mainAudio.volume = 0.8;
+            mainAudio.play().catch(e => { console.log("Main audio blocked"); }); // Start song
+            
+            if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+            
             const content = document.getElementById('content');
             content.style.opacity = '1';
             content.style.transform = 'translateY(0)';
