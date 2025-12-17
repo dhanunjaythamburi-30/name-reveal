@@ -9,7 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;800&family=Pinyon+Script&family=Lato:wght@300;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        :root { --primary-gold: #D4AF37; }
+        /* A more sophisticated Gold palette */
+        :root { 
+            --gold-light: #fff5c3;
+            --gold-med: #d4af37;
+            --gold-dark: #aa771c;
+        }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body, html { 
@@ -33,10 +39,11 @@
         .slide:nth-child(2) { background-image: url('2.jpg'); animation: kenBurns 24s infinite 8s; }
         .slide:nth-child(3) { background-image: url('3.jpg'); animation: kenBurns 24s infinite 16s; }
 
-        /* Modified Overlay: Clearer at top, darker at bottom for text readability */
+        /* CLEAN OVERLAY - No Yellow tint, just shadow for text */
         .overlay { 
             position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; 
-            background: linear-gradient(to top, rgba(0,0,0,1) 10%, rgba(0,0,0,0.6) 50%, transparent 100%); 
+            /* Gradient goes from clear -> black at bottom */
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.9) 100%); 
             z-index: 1; 
         }
 
@@ -79,22 +86,9 @@
         .gold-particle {
             position: absolute;
             border-radius: 50%;
-            background: white;
-            box-shadow: 0 0 8px 1px rgba(255, 215, 0, 0.8);
+            background: #fff; /* White core */
+            box-shadow: 0 0 6px 1px rgba(212, 175, 55, 0.6); /* Soft gold halo */
             opacity: 0;
-        }
-
-        /* MODIFIED BURST: Moved to bottom, behind text only */
-        #burst-glow {
-            position: absolute; 
-            bottom: 5%; left: 50%; transform: translateX(-50%); /* Centered horizontally, bottom alignment */
-            width: 0px; height: 0px; /* Expands via JS */
-            /* Ellipse shape that stays wide but short (not covering face) */
-            background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.35) 0%, transparent 70%);
-            z-index: 5;
-            transition: all 1.5s ease-out;
-            opacity: 0;
-            pointer-events: none;
         }
 
         /* --- MAIN CONTENT --- */
@@ -105,53 +99,54 @@
         }
 
         .reveal-active {
-            animation: cinemaReveal 2.5s cubic-bezier(0.2, 1, 0.3, 1) forwards;
+            animation: cinemaReveal 3s cubic-bezier(0.2, 1, 0.3, 1) forwards;
         }
 
         .pre-title { 
             font-family: 'Pinyon Script', cursive; font-size: 1.8rem; 
-            color: #ffebef; margin-bottom: 0px; 
-            text-shadow: 0 2px 4px rgba(0,0,0,1); 
+            color: #fcebd5; margin-bottom: 5px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8); 
+            opacity: 0.9;
         }
         
+        /* PREMIUM GOLD TEXT - STATIC (No tacky animation) */
         .name-hero { 
             font-family: 'Cinzel', serif; 
             font-size: clamp(3.8rem, 16vw, 6.5rem); 
             font-weight: 800; text-transform: uppercase; letter-spacing: 4px;
             
-            /* RESTORED INNER SHINE EFFECT */
+            /* The "Real Gold" Gradient (Dark Top -> Light Middle -> Dark Bottom) */
             background: linear-gradient(
-                110deg, 
-                #BF953F 0%, 
-                #FCF6BA 25%, 
-                #FFF 45%,     /* The Shine Spike */
-                #FCF6BA 55%, 
-                #BF953F 80%,
-                #AA771C 100%
+                to bottom,
+                #dbbf6d 0%,
+                #fffae3 45%,
+                #b08630 65%,
+                #aa771c 100%
             );
-            background-size: 200% auto;
+            
             -webkit-background-clip: text; 
             -webkit-text-fill-color: transparent;
             
-            animation: textShine 3.5s linear infinite; /* Moving Shine */
+            /* High Quality Shadow for pop */
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
             
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.9)); /* Strong shadow to separate from photo */
-            margin: 5px 0 15px 0; line-height: 1;
+            margin: 5px 0 20px 0; line-height: 1;
         }
         
         .meaning { 
-            font-size: 0.8rem; letter-spacing: 6px; color: rgba(255,255,255,0.9); 
+            font-size: 0.8rem; letter-spacing: 6px; color: rgba(255,255,255,0.8); 
             text-transform: uppercase; margin-bottom: 30px; 
             text-shadow: 0 2px 4px #000;
-            border-top: 1px solid rgba(255,215,0,0.5); border-bottom: 1px solid rgba(255,215,0,0.5);
             display: inline-block; padding: 10px 20px;
+            border-top: 1px solid rgba(255,255,255,0.2); 
+            border-bottom: 1px solid rgba(255,255,255,0.2); 
         }
         
         .stats-container { 
             display: flex; justify-content: center; gap: 30px; margin-top: 10px;
         }
         .stat-box { display: flex; flex-direction: column; color: #fff; font-family: 'Playfair Display', serif; }
-        .stat-label { font-family: 'Lato', sans-serif; font-size: 0.65rem; color: #eebb55; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; opacity: 0.9;}
+        .stat-label { font-family: 'Lato', sans-serif; font-size: 0.65rem; color: #e6c86e; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; opacity: 0.8;}
         .stat-val { font-size: 1.2rem; text-shadow: 0 2px 4px #000; }
 
         /* FLASH WHITE OVERLAY */
@@ -173,16 +168,14 @@
         @keyframes kenBurns { 0% { opacity: 0; } 10% { opacity: 1; transform: scale(1.2); } 90% { opacity: 1; } 100% { opacity: 0; transform: scale(1); } }
         @keyframes countPulse { 0% { opacity: 0; transform: scale(0.5); } 50% { opacity: 1; transform: scale(1.1); } 100% { opacity: 0; transform: scale(1.5); } }
         
+        /* The Text Reveal: Fades up and focuses */
         @keyframes cinemaReveal {
             0% { opacity: 0; transform: translateY(40px) scale(1.1); filter: blur(20px); }
-            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
         
         @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
         
-        /* The Moving Shine on Text */
-        @keyframes textShine { to { background-position: 200% center; } }
-
         @keyframes shootOut { 
             0% { transform: translate(-50%, -50%) scale(0); opacity: 1; } 
             100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; } 
@@ -202,10 +195,10 @@
         <div class="slide"></div>
     </div>
     
-    <!-- PARTICLES BEHIND CONTENT, IN FRONT OF BACKGROUND -->
+    <!-- PARTICLES -->
     <div id="particles-container"></div>
-    <div id="burst-glow"></div>
     
+    <!-- Clean Overlay -->
     <div class="overlay"></div>
     
     <!-- FLASH EFFECT -->
@@ -289,83 +282,78 @@
             flash.style.transition = "opacity 0.1s ease-out";
             flash.style.opacity = '1';
             
-            // 3. Reveal Content (after brief moment inside flash)
+            // 3. Reveal Content 
             setTimeout(() => {
                 const content = document.getElementById('content');
                 content.style.opacity = '1';
                 content.classList.add('reveal-active');
                 
-                flash.style.transition = "opacity 2.5s ease-out"; // Slower fade out for cinema feel
+                flash.style.transition = "opacity 2.5s ease-out"; 
                 flash.style.opacity = '0';
 
-                // 4. TRIGGER EFFECTS
-                // Pass a 'y' coordinate so fireworks explode behind TEXT, not baby face
-                const explosionY = window.innerHeight * 0.8; // 80% down the screen
-                createGoldenBurst(explosionY); 
-                startAmbientFloating();
+                // 4. Trigger Sparkles (Lower down)
+                const explosionY = window.innerHeight * 0.85; 
+                createClassySparkles(explosionY); 
+                startAmbientSparkles();
                 
-                const burst = document.getElementById('burst-glow');
-                // Adjust burst to be wide but not tall
-                burst.style.width = '100%'; 
-                burst.style.height = '400px'; 
-                burst.style.opacity = '1';
-
             }, 150);
 
             if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 500]);
         }
 
-        // --- EFFECT 1: EXPLOSION ---
-        function createGoldenBurst(yPos) {
+        // --- EFFECT 1: ELEGANT SPARKLE BURST ---
+        function createClassySparkles(yPos) {
             const container = document.getElementById('particles-container');
-            const centerX = window.innerWidth / 2;
 
-            for (let i = 0; i < 80; i++) {
+            for (let i = 0; i < 60; i++) {
                 const p = document.createElement('div');
                 p.classList.add('gold-particle');
                 
-                const size = Math.random() < 0.8 ? Math.random() * 4 + 2 : Math.random() * 10 + 4; 
+                // Smaller, refined particles
+                const size = Math.random() * 3 + 1; 
                 p.style.width = size + 'px';
                 p.style.height = size + 'px';
                 
-                // Start Center Bottom (Behind Text)
+                // Start from Text area
                 p.style.left = '50%';
                 p.style.top = yPos + 'px';
                 
-                // Calculate random angle 
+                // Slower velocity for elegance
                 const angle = Math.random() * Math.PI * 2;
-                const velocity = Math.random() * 300 + 80; 
+                const velocity = Math.random() * 200 + 50; 
                 const tx = Math.cos(angle) * velocity + 'px';
                 const ty = Math.sin(angle) * velocity + 'px';
 
                 p.style.setProperty('--tx', tx);
                 p.style.setProperty('--ty', ty);
                 
-                p.style.animation = `shootOut ${Math.random() * 1 + 1.5}s ease-out forwards`;
+                p.style.animation = `shootOut ${Math.random() * 1.5 + 2}s ease-out forwards`;
                 
                 container.appendChild(p);
             }
         }
 
-        // --- EFFECT 2: AMBIENT FLOATING DUST ---
-        function startAmbientFloating() {
+        // --- EFFECT 2: GENTLE FLOATING DUST ---
+        function startAmbientSparkles() {
             const container = document.getElementById('particles-container');
             
             setInterval(() => {
                 const p = document.createElement('div');
                 p.classList.add('gold-particle');
-                p.style.width = Math.random() * 4 + 1 + 'px';
-                p.style.height = p.style.width;
+                
+                const size = Math.random() * 3 + 1;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
                 p.style.left = Math.random() * 100 + '%';
-                p.style.top = '100%'; // Start from bottom
-                p.style.opacity = Math.random() * 0.5 + 0.3;
+                p.style.top = '100%'; 
+                p.style.opacity = Math.random() * 0.4 + 0.2; // Subtle opacity
                 
                 p.style.animation = `floatUp ${Math.random() * 6 + 6}s linear forwards`;
                 
                 container.appendChild(p);
                 
                 setTimeout(() => { p.remove(); }, 12000);
-            }, 250);
+            }, 400); // Less frequent
         }
     </script>
 </body>
